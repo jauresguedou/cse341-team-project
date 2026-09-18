@@ -15,7 +15,9 @@ const connectToDb = async (options = {}) => {
     throw new Error('MONGODB_URI is required.');
   }
 
-  client = new MongoClient(connectionString);
+  client = new MongoClient(connectionString, {
+    family: 4,
+  });
   await client.connect();
   database = client.db(databaseName);
   return database;
