@@ -1,3 +1,4 @@
+console.log('DB name from env:', process.env.MONGODB_DB_NAME);
 import app from './app.js';
 import { connectToDb } from './src/db/connect.js';
 
