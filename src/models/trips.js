@@ -9,4 +9,4 @@ export async function getAllTrips() {
 	const db = getDb();
 
 	return db.collection("trips").find({}).toArray();
-}
+} 

@@ -12,3 +12,4 @@ router.get('/confirmation/:confirmationId', confirmationPage);
 router.get('/:tripId', tripDetailsPage);
 
 export default router;
+ 
