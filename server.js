@@ -1,3 +1,4 @@
+console.log('DB name from env:', process.env.MONGODB_DB_NAME);
 import app from './app.js';
 import { connectToDb } from './src/db/connect.js';
 
@@ -30,3 +31,4 @@ if (NODE_ENV.includes('dev')) {
 app.listen(PORT, () => {
     console.log(`Server is running on http://127.0.0.1:${PORT}`);
 });
+ 

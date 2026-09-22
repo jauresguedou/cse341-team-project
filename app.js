@@ -4,6 +4,8 @@ import { fileURLToPath } from 'url';
 import pkg from './package.json' with { type: 'json' };
 import globalMiddleware from './src/middleware/global.js';
 import routes from './src/routes/router.js';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './src/swagger.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = Path.dirname(__filename);
@@ -28,6 +30,8 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(globalMiddleware);
 app.use('/', routes);
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // Catch requests that did not match a route.
 app.use((req, res, next) => {
     const err = new Error('Page Not Found');
@@ -35,17 +39,23 @@ app.use((req, res, next) => {
     next(err);
 });
 
+
+
 // Render the appropriate error page.
 app.use((err, req, res, next) => {
     const status = err.status || 500;
     const template = status === 404 ? '404' : '500';
+
+    console.error(err);
     const context = {
         title: status === 404 ? 'Page Not Found' : 'Server Error',
-        error: err.message,
-        stack: err.stack
+        error: status === 500 ? 'Internal server error. Please try again later.': err.message,
+        stack: process.env.NODE_ENV === 'development' ? err.stack: undefined
     };
 
     return res.status(status).render(`errors/${template}`, context);
 });
+
+
 
 export default app;

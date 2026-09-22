@@ -7,7 +7,7 @@ const aboutPage = (req, res) => {
 };
 
 const testErrorPage = (req, res, next) => {
-    const err = new Error('This is a test error so you can see what it looks like.');
+    const err = new Error('Internal server error. Please try again later.');
     err.status = 500;
     next(err);
 };
