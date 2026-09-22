@@ -9,13 +9,15 @@ const connectToDb = async (options = {}) => {
   }
 
   const connectionString = options.connectionString || process.env.MONGODB_URI;
-  const databaseName = options.databaseName || process.env.MONGODB_DB_NAME || 'practice';
+  const databaseName = options.databaseName || process.env.MONGODB_DB_NAME || 'kizuna_rail';
 
   if (!connectionString) {
     throw new Error('MONGODB_URI is required.');
   }
 
-  client = new MongoClient(connectionString);
+  client = new MongoClient(connectionString, {
+    family: 4,
+  });
   await client.connect();
   database = client.db(databaseName);
   return database;
