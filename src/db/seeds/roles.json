@@ -1,0 +1,10 @@
+[
+  {
+    "name": "user",
+    "description": "Standard authenticated application user"
+  },
+  {
+    "name": "admin",
+    "description": "Administrator with access to administrative features"
+  }
+]

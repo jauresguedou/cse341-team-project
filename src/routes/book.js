@@ -1,12 +1,14 @@
 import { getDb } from '../db/connect.js';
 import { generateConfirmationCode } from '../includes/helpers.js';
+import Schedule from '../models/schedules.js';
+import Trip from '../models/schemas/trips.js';
 
 const bookingPage = async (req, res) => {
     const { scheduleId } = req.params;
 
+    const schedule = await Schedule.findOne({ id: Number(scheduleId) }).lean();
+    const trip = await Trip.findOne({ id: schedule.tripId }).lean();
     const db = getDb();
-    const schedule = await db.collection('schedules').findOne({ id: Number(scheduleId) });
-    const trip = await db.collection('trips').findOne({ id: schedule.tripId });
     const ticketClasses = await db.collection('ticketClasses').find({}).toArray();
     const ticketOptions = ticketClasses.map((ticketClass) => ({
         class: ticketClass.class,

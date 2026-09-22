@@ -1,0 +1,14 @@
+<%- include('../partials/header') %>
+<section class="auth-form">
+    <h1>Log In</h1>
+    <% if (error) { %><p role="alert"><%= error %></p><% } %>
+    <form method="post" action="/login">
+        <label for="username">Username</label>
+        <input id="username" name="username" required>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required>
+        <button type="submit">Log In</button>
+    </form>
+    <p>Need an account? <a href="/register">Register</a>.</p>
+</section>
+<%- include('../partials/footer') %>
