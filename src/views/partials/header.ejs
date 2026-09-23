@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <title>
+        <%= title %>
+    </title>
     <link rel="stylesheet" href="/css/main.css">
     <script src="/js/main.js"></script>
+    <script src="/js/details.js"></script>
     <% if (NODE_ENV.includes('dev')) { %>
         <script>
             // Get the current hostname and port from the browser
@@ -19,8 +23,9 @@
                 setTimeout(() => location.reload(), 2000);
             };
         </script>
-    <% } %>
+        <% } %>
 </head>
+
 <body>
     <header class="content-grid">
         <div class="content">

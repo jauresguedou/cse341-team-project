@@ -5,7 +5,7 @@ const scheduleSchema = new Schema({
         type: String,
         enum: [
             'alpine-panorama',
-            'coastal breeze',
+            'coastal-breeze',
             'sakura-valley',
             'gorge-explorer',
             'winter-wetlands',
@@ -14,14 +14,14 @@ const scheduleSchema = new Schema({
         required: true
     },
     departureTime: {
-        type: Date,
+        type: String,
         required: true
     },
     arrivalTime: {
-        type: Date,
+        type: String,
         required: true
     },
-    dayOfTheWeek: {
+    daysOfWeek: {
         type: [String],
         enum: [
             'monday',

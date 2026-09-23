@@ -3,6 +3,7 @@ import {
   getAllTrips,
   getTripById,
 } from "../controllers/trips.js";
+import { getSchedulesForTrip } from "../controllers/schedules.js";
 
 const router = Router();
 
@@ -102,5 +103,38 @@ router.get("/api/trips/:id", getTripById);
  *         imageUrl:
  *           type: string
  */
+
+/**
+ * @swagger
+ * /api/trips/{id}/schedules:
+ *  get:
+ *    summary: Get all schedules for a trip
+ *    tags: [Schedules] 
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: string
+ *        description: Provide a valid id for getting schedules of a trip
+ *      - in: query
+ *        name: month
+ *        schema: 
+ *          type: integer
+ *        description: the number of the month (e.g December = 12)
+ *    responses:
+ *       200:
+ *         description: A list of trips
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Trip'
+ *       500:
+ *         description: Failed to fetch trips
+ */
+router.get('/api/trips/:id/schedules', getSchedulesForTrip)
+
 
 export default router;
