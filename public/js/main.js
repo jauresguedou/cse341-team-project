@@ -143,7 +143,40 @@ const hookTrainsCatalog = async () => {
     }
 };
 
+const schedulesHook = async () => {
+    const schedules_grid = document.querySelector(".schedules-grid");
+    const segments = window.location.pathname.split("/").filter(Boolean);
+    const tripId = segments[segments.length - 1];
+    const res = await fetch(`/api/trips/${tripId}/schedules`)
+    if (!res.ok) throw new Error();
+    const schedules = await res.json();
+
+    schedules.schedules.forEach(sched => {
+        schedules_grid.appendChild(genCards(sched))
+    })
+}
+
+const genCards = (sched) => {
+    const template = document.querySelector(".schedules-grid-template");
+    const clone = template.content.cloneNode(true);
+
+    clone.querySelector(".departure").textContent = sched.departureTime;
+    clone.querySelector(".arrival").textContent = sched.arrivalTime;
+
+    const daysOfWeek = clone.querySelector(".schedule-days");
+
+    sched.daysOfWeek.forEach(day => {
+        const badge = document.createElement("span");
+        badge.classList.add("day-badge");
+        badge.textContent = day;
+
+        daysOfWeek.appendChild(badge)
+    })
+    return clone;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     hookTripsCatalog();
     hookTrainsCatalog();
+    schedulesHook();
 });
