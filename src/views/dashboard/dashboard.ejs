@@ -1,0 +1,56 @@
+<%- include('../partials/header') %>
+    <div class="dashboard">
+        <h1 class="dashboard-greeting">
+            Welcome, <%= displayName || 'there' %>
+        </h1>
+        <div>
+            <h3>Bookings: </h3>
+            <div class="booking-list">
+                <template class="booking-card">
+                    <div class="booking-card-header">
+                        <span class="booking-id">
+
+                        </span>
+                        <span class="booking-class">
+
+                        </span>
+                    </div>
+                    <div class="booking-card-body">
+                        <div class="booking-detail">
+                            <span class="booking-detail-label">Trip</span>
+                            <span class="booking-detail-value trip">
+
+                            </span>
+                        </div>
+                        <div class="booking-detail">
+                            <span class="booking-detail-label">Day</span>
+                            <span class="booking-detail-value day">
+
+                            </span>
+                        </div>
+                        <div class="booking-detail">
+                            <span class="booking-detail-label">Schedule</span>
+                            <span class="booking-detail-value schedule">
+
+                            </span>
+                        </div>
+                    </div>
+                    <div class="booking-card-footer">
+                        <span class="booking-created">
+                        </span>
+                    </div>
+                </template>
+            </div>
+        </div>
+        <div class="dashboard-links">
+            <a href="/admin/bookings" class="dashboard-link">
+                <span class="dashboard-link-title">Booking Admin</span>
+                <span class="dashboard-link-desc">Manage reservations</span>
+            </a>
+            <a href="/admin/users" class="dashboard-link">
+                <span class="dashboard-link-title">User Admin</span>
+                <span class="dashboard-link-desc">Manage accounts</span>
+            </a>
+        </div>
+    </div>
+    <%- include('../partials/footer') %>
