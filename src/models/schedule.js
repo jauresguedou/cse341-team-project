@@ -1,5 +1,4 @@
-import Schedule from "./schemas/schedule.js";
-import Trip from "./schemas/trips.js";
+import Schedule from "./schedules.js";
 
 export async function getSchedulesByTripId(tripId, month = null) {
     try {
