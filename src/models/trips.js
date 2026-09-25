@@ -1,4 +1,4 @@
-import { getDb } from "../db/connect.js";
+import { getDb } from "../db/connect.js"; 
 
 export async function getTripById(id) {
 	const db = getDb();
