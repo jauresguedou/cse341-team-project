@@ -3,14 +3,22 @@ import ejsRoutes from './ejs-routes.js';
 import { trainsApi, trainsPage } from './trains.js';
 import { Router } from 'express';
 import { homePage, aboutPage, testErrorPage } from './index.js';
+import authRoutes from './auth.js';
+import { adminDashboardPage } from '../controllers/admin.js';
+import { requirePageLogin, requirePageRole } from '../middleware/auth.js';
 
 const router = Router();
+
+router.use(authRoutes);
 
 // Home page
 router.get('/', homePage);
 
 // About page
 router.get('/about', aboutPage);
+
+// Admin dashboard
+router.get('/admin', requirePageLogin(), requirePageRole('admin'), adminDashboardPage);
 
 // Trains page
 router.get('/trains', trainsPage);

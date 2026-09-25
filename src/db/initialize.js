@@ -3,13 +3,14 @@ import schedules from './seeds/schedules.json' with { type: 'json' };
 import stations from './seeds/stations.json' with { type: 'json' };
 import ticketClasses from './seeds/ticket-classes.json' with { type: 'json' };
 import trains from './seeds/trains.json' with { type: 'json' };
+import roles from './seeds/roles.json' with { type: 'json' };
 
 const starterCollections = [
   ['trips', trips],
   ['schedules', schedules],
   ['stations', stations],
   ['ticketClasses', ticketClasses],
-  ['trains', trains]
+  ['trains', trains],
 ];
 
 const initializeDatabase = async (db) => {
@@ -22,6 +23,26 @@ const initializeDatabase = async (db) => {
     await collection.deleteMany({});
     await collection.insertMany(documents);
   }
+
+  const rolesCollection = db.collection('roles');
+
+  for (const role of roles) {
+      const now = new Date();
+      await rolesCollection.updateOne(
+          { name: role.name },
+          {
+              $set: {
+                  description: role.description,
+                  updatedAt: now
+              },
+                $setOnInsert: {
+                  createdAt: now
+              }
+            },
+            { upsert: true }
+        );
+    }
+
 
   const confirmations = db.collection('confirmations');
   await confirmations.deleteMany({});

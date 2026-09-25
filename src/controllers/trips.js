@@ -2,7 +2,7 @@ import {
 	getTripById as findTripById,
 	getAllTrips as findAllTrips,
 } from "../models/trips.js";
-import { getDb } from "../db/connect.js";
+import Schedule from "../models/schedules.js";
 
 export function tripListPage(req, res) {
 	res.render("trips/list", {
@@ -13,9 +13,8 @@ export function tripListPage(req, res) {
 export async function tripDetailsPage(req, res) {
 	const { tripId } = req.params;
 	const details = await findTripById(tripId);
-	const db = getDb();
 
-	details.schedules = await db.collection("schedules").find({ tripId }).toArray();
+	details.schedules = await Schedule.find({ tripId }).lean();
 
 	res.render("trips/details", {
 		title: "Trip Details",
