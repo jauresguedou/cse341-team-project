@@ -22,10 +22,13 @@ const initializeDatabase = async (db) => {
     await collection.deleteMany({});
     await collection.insertMany(documents);
   }
+  const bookings = db.collection('bookings');
 
-  const confirmations = db.collection('confirmations');
-  await confirmations.deleteMany({});
-  await confirmations.createIndex({ id: 1 }, { unique: true });
+await bookings.deleteMany({});
+
+await bookings.createIndex(
+    { id: 1 },
+    { unique: true });
 };
 
 export { initializeDatabase, starterCollections };

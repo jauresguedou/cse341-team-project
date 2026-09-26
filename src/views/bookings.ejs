@@ -1,0 +1,97 @@
+<%- include('./partials/header') %>
+
+<section class="bookings-hero">
+    <h1>Bookings</h1>
+    <p>
+        View all bookings made through the Kizuna Rail network.
+    </p>
+</section>
+
+<section class="bookings-catalog">
+
+    <div class="bookings-state" id="bookings-loading">
+        Loading bookings...
+    </div>
+
+    <div class="bookings-state bookings-error" id="bookings-error" hidden></div>
+
+    <div class="bookings-list" id="bookings-list"></div>
+
+    <template id="booking-card-template">
+        <article class="booking-card">
+
+            <header class="booking-card-header">
+                <div>
+                    <h2 data-field="id"></h2>
+                    <p data-field="created-at"></p>
+                </div>
+
+                <span class="booking-ticket" data-field="ticket-class"></span>
+            </header>
+
+            <div class="booking-details">
+
+                <div class="booking-detail">
+                    <strong>Schedule</strong>
+                    <span data-field="schedule"></span>
+                </div>
+
+                <div class="booking-detail">
+                    <strong>Trip</strong>
+                    <span data-field="trip"></span>
+                </div>
+
+                <div class="booking-detail">
+                    <strong>Selected Day</strong>
+                    <span data-field="selected-day"></span>
+                </div>
+
+                <div class="booking-detail">
+                    <strong>Passengers</strong>
+                    <span data-field="passenger-count"></span>
+                </div>
+
+            </div>
+
+            <section class="passengers-section">
+                <h3>Passenger Details</h3>
+
+                <div class="passengers-list" data-field="passengers">
+                </div>
+            </section>
+
+        </article>
+    </template>
+
+    <template id="passenger-template">
+        <div class="passenger-item">
+
+            <h4>
+                Passenger <span data-field="number"></span>
+            </h4>
+
+            <div class="passenger-info">
+
+                <p>
+                    <strong>Name:</strong>
+                    <span data-field="name"></span>
+                </p>
+
+                <p>
+                    <strong>Email:</strong>
+                    <span data-field="email"></span>
+                </p>
+
+                <p>
+                    <strong>Phone:</strong>
+                    <span data-field="phone"></span>
+                </p>
+
+            </div>
+
+        </div>
+    </template>
+
+</section>
+
+<%- include('./partials/footer') %>

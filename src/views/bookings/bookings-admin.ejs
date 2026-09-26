@@ -1,0 +1,101 @@
+<%- include('../partials/header') %>
+
+<section class="bookings-hero">
+    <h1><%= title %></h1>
+
+    <p>
+        View all bookings made through the Kizuna Rail network.
+    </p>
+</section>
+
+<section class="bookings-catalog">
+
+    <div id="bookings-loading" class="bookings-state">
+        Loading bookings...
+    </div>
+
+    <div id="bookings-error" class="bookings-state bookings-error" hidden></div>
+
+    <div id="bookings-list" class="bookings-list"></div>
+
+    <template id="booking-card-template">
+
+        <article class="booking-card">
+
+            <header class="booking-card-header">
+                <div>
+                    <h2 data-field="id"></h2>
+                    <p data-field="created-at"></p>
+                </div>
+
+                <span data-field="ticket-class"></span>
+            </header>
+
+            <div class="booking-details">
+
+                <p>
+                    <strong>Schedule:</strong>
+                    <span data-field="schedule"></span>
+                </p>
+
+                <p>
+                    <strong>Trip:</strong>
+                    <span data-field="trip"></span>
+                </p>
+
+                <p>
+                    <strong>Selected Day:</strong>
+                    <span data-field="selected-day"></span>
+                </p>
+
+                <p>
+                    <strong>Passengers:</strong>
+                    <span data-field="passenger-count"></span>
+                </p>
+
+            </div>
+
+            <section class="passengers-section">
+
+                <h3>Passenger Details</h3>
+
+                <div data-field="passengers"></div>
+
+            </section>
+
+        </article>
+
+    </template>
+
+    <template id="passenger-template">
+
+        <div class="passenger-item">
+
+            <h4>
+                Passenger <span data-field="number"></span>
+            </h4>
+
+            <p>
+                <strong>Name:</strong>
+                <span data-field="name"></span>
+            </p>
+
+            <p>
+                <strong>Email:</strong>
+                <span data-field="email"></span>
+            </p>
+
+            <p>
+                <strong>Phone:</strong>
+                <span data-field="phone"></span>
+            </p>
+
+        </div>
+
+    </template>
+
+</section>
+
+<script src="/main.js"></script>
+
+<%- include('../partials/footer') %>
