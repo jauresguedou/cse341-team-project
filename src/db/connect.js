@@ -1,5 +1,6 @@
 import { MongoClient } from 'mongodb';
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
+import Confirmation from '../models/schemas/confirmation.js';
 
 let database;
 let client;

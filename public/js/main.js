@@ -162,7 +162,7 @@ const genCards = (sched) => {
 
     clone.querySelector(".departure").textContent = sched.departureTime;
     clone.querySelector(".arrival").textContent = sched.arrivalTime;
-
+    clone.querySelector(".book-btn").href = `/trips/booking/${sched.id}`
     const daysOfWeek = clone.querySelector(".schedule-days");
 
     sched.daysOfWeek.forEach(day => {
@@ -174,9 +174,44 @@ const genCards = (sched) => {
     })
     return clone;
 }
+// for the bookings list in User Dashboard
+const genBookings = async () => {
+    console.log("this is running")
+    const bookingListContainer = document.querySelector(".booking-list");
+    try {
+        const res = await fetch("/trips/user-booking")
+        if (!res.ok) {
+            bookingListContainer.innerHTML = `<div>No bookings</div>`;
+            return
+        }
+        const bookings = await res.json();
+
+        bookings.forEach(item => {
+            bookingListContainer.appendChild(genBookCards(item))
+        })
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+// Generate booking cards
+const genBookCards = (details) => {
+    const template = document.querySelector(".booking-card");
+    const clone = template.content.cloneNode(true);
+
+    clone.querySelector(".booking-id").textContent = details.id;
+    clone.querySelector(".booking-class").textContent = details.ticketClass;
+    clone.querySelector(".trip").textContent = details.tripId;
+    clone.querySelector(".day").textContent = details.selectedDay;
+    clone.querySelector(".schedule").textContent = details.selectedDay;
+    clone.querySelector(".booking-created").textContent = details.createdAt;
+
+    return clone;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     hookTripsCatalog();
     hookTrainsCatalog();
     schedulesHook();
+    genBookings();
 });
