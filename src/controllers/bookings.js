@@ -56,10 +56,10 @@ const getAllBookingsHandler = async (req, res) => {
 
         return res.status(200).json(bookings);
     } catch (error) {
-        console.error('Failed to retrieve bookings:', error.message);
+        console.error('Failed to recover bookings:', error.message);
 
         return res.status(500).json({
-            message: 'Unable to retrieve bookings'
+            message: 'not able to retrieve bookings'
         });
     }
 };
