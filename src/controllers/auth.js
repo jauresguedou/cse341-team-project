@@ -117,9 +117,13 @@ const loginPageSubmit = async (req, res, next) => {
                 error: 'Invalid username or password.',
             });
         }
-
         await setSessionUser(req, user);
-        return res.redirect('/');
+        //  check if a user is an admin
+        if (user.role.name === 'admin') {
+            return res.redirect("/admin")
+        }
+        // changed this so the user would be directed to the dashboard route
+        return res.redirect('/dashboard');
     } catch (error) {
         return next(error);
     }

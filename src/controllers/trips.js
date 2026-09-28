@@ -14,6 +14,12 @@ export async function tripDetailsPage(req, res) {
 	const { tripId } = req.params;
 	const details = await findTripById(tripId);
 
+	if (!details) {
+		res.status(404).render("404", {
+			title: "Trip Not Found",
+		});
+		return
+	}
 	details.schedules = await Schedule.find({ tripId }).lean();
 
 	res.render("trips/details", {
@@ -57,4 +63,3 @@ export async function getAllTrips(req, res) {
 		});
 	}
 }
- 
