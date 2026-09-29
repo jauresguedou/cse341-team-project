@@ -1,3 +1,25 @@
+.trips-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+
+    button {
+        min-width: 7rem;
+        padding: var(--space-sm) var(--space-md);
+        border: 1px solid var(--clr-primary);
+        border-radius: var(--radius-sm);
+        background: var(--clr-surface);
+        color: var(--clr-primary);
+        cursor: pointer;
+
+        &:disabled {
+            cursor: not-allowed;
+            opacity: 0.55;
+        }
+    }
+}
+
 .routes-grid {
     display: flex;
     flex-direction: column;
