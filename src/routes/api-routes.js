@@ -16,17 +16,32 @@ const router = Router();
  * @swagger
  * /api/trips:
  *   get:
- *     summary: Get all scenic train trips
+ *     summary: Get a page of scenic train trips
  *     tags: [Trips]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           default: 1
+ *         description: One-based page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           default: 10
+ *         description: Maximum number of trips in the response
  *     responses:
  *       200:
- *         description: A list of trips
+ *         description: A page of trips with pagination metadata and filter options
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Trip'
+ *               $ref: '#/components/schemas/TripPage'
+ *       400:
+ *         description: Invalid page or limit
  *       500:
  *         description: Failed to fetch trips
  */
@@ -63,6 +78,41 @@ router.get("/api/trips/:id", getTripById);
  * @swagger
  * components:
  *   schemas:
+ *     TripPage:
+ *       type: object
+ *       required:
+ *         - trips
+ *         - pagination
+ *         - filterOptions
+ *       properties:
+ *         trips:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/Trip'
+ *         pagination:
+ *           type: object
+ *           required: [page, limit, totalItems, totalPages]
+ *           properties:
+ *             page:
+ *               type: integer
+ *             limit:
+ *               type: integer
+ *             totalItems:
+ *               type: integer
+ *             totalPages:
+ *               type: integer
+ *         filterOptions:
+ *           type: object
+ *           required: [regions, seasons]
+ *           properties:
+ *             regions:
+ *               type: array
+ *               items:
+ *                 type: string
+ *             seasons:
+ *               type: array
+ *               items:
+ *                 type: string
  *     Trip:
  *       type: object
  *       required:

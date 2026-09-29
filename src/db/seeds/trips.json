@@ -160,5 +160,153 @@
             12
         ],
         "imageUrl": "/images/routes/romantic-gorge.png"
+    },
+    {
+        "id": "lake-echo",
+        "name": "Lake Echo Limited",
+        "description": "Circle a quiet alpine lake with clear water and views of the surrounding peaks.",
+        "region": "central",
+        "startStation": "toyama",
+        "endStation": "nagoya",
+        "duration": "3 hours",
+        "distance": 112,
+        "highlights": [
+            "Alpine lake views",
+            "Mountain villages",
+            "Lakeside stations"
+        ],
+        "bestSeason": "summer",
+        "operatingMonths": [
+            5,
+            6,
+            7,
+            8,
+            9
+        ],
+        "imageUrl": "/images/routes/lake-echo.png"
+    },
+    {
+        "id": "cedar-valley",
+        "name": "Cedar Valley Railway",
+        "description": "Pass through forested valleys and historic towns in the heart of Kansai.",
+        "region": "kansai",
+        "startStation": "wakayama",
+        "endStation": "osaka",
+        "duration": "2 hours",
+        "distance": 54,
+        "highlights": [
+            "Cedar forests",
+            "Historic town centers",
+            "River crossings"
+        ],
+        "bestSeason": "spring",
+        "operatingMonths": [
+            3,
+            4,
+            5,
+            6,
+            9,
+            10,
+            11
+        ],
+        "imageUrl": "/images/routes/cedar-valley.png"
+    },
+    {
+        "id": "northern-lights-line",
+        "name": "Northern Lights Line",
+        "description": "Ride across the northern countryside beneath broad winter skies and snowy ridgelines.",
+        "region": "hokkaido",
+        "startStation": "shibecha",
+        "endStation": "kushiro",
+        "duration": "2.5 hours",
+        "distance": 76,
+        "highlights": [
+            "Snow-covered wetlands",
+            "Winter wildlife",
+            "Open northern skies"
+        ],
+        "bestSeason": "winter",
+        "operatingMonths": [
+            12,
+            1,
+            2,
+            3
+        ],
+        "imageUrl": "/images/routes/northern-lights-line.png"
+    },
+    {
+        "id": "harbor-wind-express",
+        "name": "Harbor Wind Express",
+        "description": "Follow a rugged northern shoreline past fishing ports and coastal cliffs.",
+        "region": "northern",
+        "startStation": "akita",
+        "endStation": "aomori",
+        "duration": "3.5 hours",
+        "distance": 128,
+        "highlights": [
+            "Coastal cliffs",
+            "Fishing harbors",
+            "Sea of Japan views"
+        ],
+        "bestSeason": "summer",
+        "operatingMonths": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+        ],
+        "imageUrl": "/images/routes/harbor-wind-express.png"
+    },
+    {
+        "id": "temple-bell-route",
+        "name": "Temple Bell Route",
+        "description": "Connect quiet temple districts and wooded hills on a relaxed Kansai rail journey.",
+        "region": "kansai",
+        "startStation": "kameoka",
+        "endStation": "arashiyama",
+        "duration": "1 hour",
+        "distance": 18,
+        "highlights": [
+            "Temple gardens",
+            "Wooded hillsides",
+            "Traditional neighborhoods"
+        ],
+        "bestSeason": "autumn",
+        "operatingMonths": [
+            3,
+            4,
+            10,
+            11,
+            12
+        ],
+        "imageUrl": "/images/routes/temple-bell-route.png"
+    },
+    {
+        "id": "mountain-spring-journey",
+        "name": "Mountain Spring Journey",
+        "description": "Climb from the central highlands toward mountain villages beside rushing spring streams.",
+        "region": "central",
+        "startStation": "nagoya",
+        "endStation": "toyama",
+        "duration": "4 hours",
+        "distance": 156,
+        "highlights": [
+            "Mountain streams",
+            "Highland scenery",
+            "Traditional villages"
+        ],
+        "bestSeason": "spring",
+        "operatingMonths": [
+            3,
+            4,
+            5,
+            6,
+            9,
+            10
+        ],
+        "imageUrl": "/images/routes/mountain-spring-journey.png"
     }
 ]
