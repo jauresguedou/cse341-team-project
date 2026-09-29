@@ -2,15 +2,18 @@
 <h1><%- title %></h1>
 
 <div id="filters">
-    Search by Region:
-    <select id="region-filter" aria-label="Search by region">
+    <label for="region-filter">Region</label>
+    <select id="region-filter" aria-label="Filter by region">
         <option value="all">All Regions</option>
     </select>
 
-    Search by Season:
-    <select id="season-filter" aria-label="Search by season">
+    <label for="season-filter">Season</label>
+    <select id="season-filter" aria-label="Filter by season">
         <option value="all">Any Season</option>
     </select>
+
+    <label for="trips-search">Keywords</label>
+    <input id="trips-search" type="search" placeholder="Search trip names and descriptions" autocomplete="off">
 </div>
 
 <div class="trips-state" id="trips-loading">Loading trips...</div>

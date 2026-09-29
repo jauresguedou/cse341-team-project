@@ -20,6 +20,32 @@
     }
 }
 
+#filters {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-sm) var(--space-md);
+
+    label {
+        color: var(--clr-text-secondary);
+    }
+
+    select,
+    input {
+        min-height: 2.5rem;
+        padding: var(--space-xs) var(--space-sm);
+        border: 1px solid var(--clr-border);
+        border-radius: var(--radius-sm);
+        background: var(--clr-surface);
+        color: var(--clr-text-primary);
+    }
+
+    input {
+        flex: 1 1 16rem;
+        min-width: min(100%, 12rem);
+    }
+}
+
 .routes-grid {
     display: flex;
     flex-direction: column;

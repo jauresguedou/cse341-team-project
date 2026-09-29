@@ -100,6 +100,98 @@ describe('GET /api/trips', () => {
     expect(response.body.filterOptions).toEqual({ regions: [], seasons: [] });
   });
 
+  test('filters by region and season without regard to case', async () => {
+    const regionResponse = await request(app)
+      .get('/api/trips')
+      .query({ region: 'CENTRAL', limit: 2 });
+    const seasonResponse = await request(app)
+      .get('/api/trips')
+      .query({ season: 'WINTER' });
+
+    expect(regionResponse.body.pagination).toMatchObject({
+      totalItems: 4,
+      totalPages: 2
+    });
+    expect(regionResponse.body.trips).toHaveLength(2);
+    expect(regionResponse.body.trips.every((trip) => trip.region === 'central')).toBe(true);
+    expect(seasonResponse.body.pagination.totalItems).toBe(2);
+    expect(seasonResponse.body.trips.every((trip) => trip.bestSeason === 'winter')).toBe(true);
+  });
+
+  test('searches trip names and descriptions as case-insensitive substrings', async () => {
+    const nameResponse = await request(app)
+      .get('/api/trips')
+      .query({ search: 'PANORAMA' });
+    const descriptionResponse = await request(app)
+      .get('/api/trips')
+      .query({ search: 'spring streams' });
+    const metadataResponse = await request(app)
+      .get('/api/trips')
+      .query({ search: 'nagoya' });
+
+    expect(nameResponse.body.trips.map((trip) => trip.id)).toEqual(['alpine-panorama']);
+    expect(descriptionResponse.body.trips.map((trip) => trip.id)).toEqual([
+      'mountain-spring-journey'
+    ]);
+    expect(metadataResponse.body.trips).toEqual([]);
+    expect(metadataResponse.body.pagination.totalItems).toBe(0);
+  });
+
+  test('combines filters before pagination and keeps options from the full catalog', async () => {
+    const response = await request(app)
+      .get('/api/trips')
+      .query({ region: 'central', season: 'spring', search: 'mountain', limit: 1 });
+
+    expect(response.body.trips.map((trip) => trip.id)).toEqual([
+      'mountain-spring-journey'
+    ]);
+    expect(response.body.pagination).toMatchObject({
+      totalItems: 1,
+      totalPages: 1
+    });
+    expect(response.body.filterOptions.regions).toContain('hokkaido');
+    expect(response.body.filterOptions.seasons).toContain('winter');
+  });
+
+  test('trims search input and treats whitespace-only search as omitted', async () => {
+    const unfilteredResponse = await request(app).get('/api/trips');
+    const whitespaceResponse = await request(app)
+      .get('/api/trips')
+      .query({ search: '   ' });
+    const trimmedResponse = await request(app)
+      .get('/api/trips')
+      .query({ search: '  PANORAMA  ' });
+
+    expect(whitespaceResponse.body.pagination.totalItems).toBe(
+      unfilteredResponse.body.pagination.totalItems
+    );
+    expect(trimmedResponse.body.trips.map((trip) => trip.id)).toEqual(['alpine-panorama']);
+  });
+
+  test('retains filters across pages and counts only filtered trips', async () => {
+    await getDb().collection('trips').insertMany(
+      Array.from({ length: 21 }, (_, index) => makeTrip(index))
+    );
+
+    const filters = { region: 'test-east', season: 'spring', limit: 10 };
+    const firstPage = await request(app)
+      .get('/api/trips')
+      .query({ ...filters, page: 1 });
+    const secondPage = await request(app)
+      .get('/api/trips')
+      .query({ ...filters, page: 2 });
+
+    expect(firstPage.body.pagination).toMatchObject({
+      totalItems: 11,
+      totalPages: 2
+    });
+    expect(firstPage.body.trips).toHaveLength(10);
+    expect(secondPage.body.trips).toHaveLength(1);
+    expect([...firstPage.body.trips, ...secondPage.body.trips].every(
+      (trip) => trip.region === 'test-east' && trip.bestSeason === 'spring'
+    )).toBe(true);
+  });
+
   test.each(['0', '-1', '1.5', 'invalid'])(
     'rejects invalid page value %s',
     async (page) => {

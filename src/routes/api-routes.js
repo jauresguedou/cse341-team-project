@@ -27,6 +27,21 @@ const router = Router();
  *           minimum: 1
  *           default: 10
  *         description: Maximum number of trips in the response
+ *       - in: query
+ *         name: region
+ *         schema:
+ *           type: string
+ *         description: Exact case-insensitive region filter
+ *       - in: query
+ *         name: season
+ *         schema:
+ *           type: string
+ *         description: Exact case-insensitive best-season filter
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Case-insensitive substring search in trip names and descriptions
  *     responses:
  *       200:
  *         description: A page of trips with pagination metadata and filter options
@@ -35,7 +50,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/TripPage'
  *       400:
- *         description: Invalid page or limit
+ *         description: Invalid page, limit, or filter parameter type
  *       500:
  *         description: Failed to fetch trips
  */
