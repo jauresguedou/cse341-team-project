@@ -10,6 +10,11 @@ import Trip from "../models/schemas/trips.js";
 import mongoose from "mongoose";
 
 
+// Auth Middlewares
+import { requirePageLogin, requireApiRole } from "../middleware/auth.js"
+import { adminDashboardPage, adminUsers, adminDeleteUser, adminUpdateUser } from "../controllers/admin.js";
+
+
 const router = Router();
 
 /**
@@ -134,6 +139,15 @@ router.get("/api/trips/:id", getTripById);
  */
 
 router.get("/api/trips/:id/schedules", scheduleController)
+
+
+// TODO: Add admin routes for user management swagger docs
+
+router.get("/api/admin/users", requirePageLogin(), requireApiRole("admin"), adminUsers)
+
+router.delete("/api/admin/users/:id", requirePageLogin(), requireApiRole("admin"), adminDeleteUser);
+
+router.put("/api/admin/users/:id", requirePageLogin(), requireApiRole("admin"), adminUpdateUser);
 
 
 // DEBUGS
