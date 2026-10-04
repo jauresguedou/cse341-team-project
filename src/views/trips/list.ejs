@@ -2,20 +2,29 @@
 <h1><%- title %></h1>
 
 <div id="filters">
-    Search by Region:
-    <select id="region-filter" aria-label="Search by region">
+    <label for="region-filter">Region</label>
+    <select id="region-filter" aria-label="Filter by region">
         <option value="all">All Regions</option>
     </select>
 
-    Search by Season:
-    <select id="season-filter" aria-label="Search by season">
+    <label for="season-filter">Season</label>
+    <select id="season-filter" aria-label="Filter by season">
         <option value="all">Any Season</option>
     </select>
+
+    <label for="trips-search">Keywords</label>
+    <input id="trips-search" type="search" placeholder="Search trip names and descriptions" autocomplete="off">
 </div>
 
 <div class="trips-state" id="trips-loading">Loading trips...</div>
 <div class="trips-state trips-error" id="trips-error" hidden></div>
+<div class="trips-state" id="trips-empty" hidden>No trips to display on this page.</div>
 <div class="routes-grid" id="trips-list"></div>
+<nav class="trips-pagination" id="trips-pagination" aria-label="Trip list pages" hidden>
+    <button id="trips-previous" type="button" aria-label="Previous page">Previous</button>
+    <span id="trips-page-status" aria-live="polite"></span>
+    <button id="trips-next" type="button" aria-label="Next page">Next</button>
+</nav>
 
 <template id="trip-card-template">
     <div class="route-card">
