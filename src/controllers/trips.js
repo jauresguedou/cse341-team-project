@@ -60,7 +60,21 @@ export async function getAllTrips(req, res) {
 			});
 		}
 
-		const result = await findPaginatedTrips(page, limit);
+		const filterNames = ["region", "season", "search"];
+		if (
+			filterNames.some(
+				(name) => req.query[name] !== undefined && typeof req.query[name] !== "string",
+			)
+		) {
+			return res.status(400).json({
+				error: "Region, season, and search must be strings",
+			});
+		}
+
+		const filters = Object.fromEntries(
+			filterNames.map((name) => [name, req.query[name]?.trim() || undefined]),
+		);
+		const result = await findPaginatedTrips(page, limit, filters);
 
 		return res.status(200).json({
 			trips: result.trips,
