@@ -1,7 +1,21 @@
 <%- include('../partials/header') %>
     <h1>Welcome to the Admin Dashboard</h1>
     <div class="userListView">
+        <p>Manage Users</p>
+        <p>Total Pages: <span id="totalPages">0</span></p>
+        <select id="roleFilter">
+            <option value="">All Roles</option>
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+        </select>
+        <input type="text" id="searchInput" placeholder="Search by username">
+        <input type="submit" id="searchButton" value="Search">
         <ul id="userList"></ul>
+        <div style="display: flex; justify-content: center; align-items: center; margin-top: 10px;">
+            <button id="prevPage">&lt; Previous</button>
+            <span id="pageNumber">1</span>
+            <button id="nextPage">Next &gt;</button>
+        </div>
     </div>
     <script src="/js/admin-user.js"></script>
     <%- include('../partials/footer') %>
