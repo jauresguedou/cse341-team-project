@@ -4,14 +4,49 @@ const adminDashboardPage = (req, res) => {
     res.render('admin/dashboard', { title: 'Admin Dashboard' });
 };
 
+
+const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 const adminUsers = async (req, res) => {
     try {
-        const users = await User.find({}).populate("role");
-        return res.status(200).json(users)
+        const page = Math.max(parseInt(req.query.page) || 1, 1);
+        const limit = Math.min(Math.max(parseInt(req.query.limit) || 3, 1), 100);
+        const skip = (page - 1) * limit;
+        const q = String(req.query.q || '').trim();
+
+        const filter = {};
+        if (q) {
+            const regex = new RegExp(escapeRegex(q), 'i');
+            filter.$or = [
+                { displayName: regex },
+                { email: regex },
+                { username: regex },
+            ];
+        }
+
+        const [users, total] = await Promise.all([
+            User.find(filter)
+                .select('-password -__v')
+                .populate('role', 'name')
+                .sort({ createdAt: -1, _id: -1 })
+                .skip(skip)
+                .limit(limit)
+                .lean(),
+            User.countDocuments(filter),
+        ]);
+
+        return res.status(200).json({
+            users,
+            page,
+            limit,
+            total,
+            totalPages: Math.ceil(total / limit),
+        });
     } catch (err) {
-        return res.status(500).json({ error: err })
+        console.error('adminUsers error:', err);
+        return res.status(500).json({ error: 'Internal server error' });
     }
-}
+};
 
 const adminDeleteUser = async (req, res) => {
     try {
