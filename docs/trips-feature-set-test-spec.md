@@ -88,8 +88,12 @@ BLOCKED: no routes exist. When added, tests will verify the response
 and query the `trips` collection to confirm the insert, update, or removal.
 
 ## Region / season / keyword search
-BLOCKED: the API ignores these params; `filterOptions` only lists values.
-The "no matches" test cannot be written until the API supports filtering.
+Implemented on `main` (Week 05, PR #32). Existing tests in
+`tests/trips.test.js` cover case-insensitive region and season filters,
+name/description keyword search, trimmed and whitespace-only search,
+combined filters, and filtered pagination.
+Remaining gaps being checked: a request with no matches, and a filtered
+page with fewer results than the limit.
 
 ## Notes
 - `dropDatabase` may remove the unique index on `trips.id`; call
