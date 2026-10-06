@@ -6,6 +6,7 @@ import { homePage, aboutPage, testErrorPage } from './index.js';
 import authRoutes from './auth.js';
 import { adminDashboardPage } from '../controllers/admin.js';
 import { requirePageLogin, requirePageRole } from '../middleware/auth.js';
+import { standard_dashboard } from '../controllers/dashboard.js';
 
 const router = Router();
 
@@ -19,6 +20,9 @@ router.get('/about', aboutPage);
 
 // Admin dashboard
 router.get('/admin', requirePageLogin(), requirePageRole('admin'), adminDashboardPage);
+
+// User Dashboard
+router.get('/dashboard', requirePageLogin(), standard_dashboard)
 
 // Trains page
 router.get('/trains', trainsPage);

@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <title>
+        <%= title %>
+    </title>
     <link rel="stylesheet" href="/css/main.css">
     <script src="/js/main.js"></script>
     <% if (NODE_ENV.includes('dev')) { %>
@@ -19,8 +22,9 @@
                 setTimeout(() => location.reload(), 2000);
             };
         </script>
-    <% } %>
+        <% } %>
 </head>
+
 <body>
     <header class="content-grid">
         <div class="content">
@@ -46,7 +50,14 @@
                                 <button type="submit">Log out</button>
                             </form>
                         </li>
-                    <% } %>
+                        <% } else { %>
+                            <li class="auth-menu-item">
+                                <a href="/login">Log in</a>
+                            </li>
+                            <li class="auth-menu-item">
+                                <a href="/register">Register</a>
+                            </li>
+                            <% } %>
                 </ul>
             </nav>
         </div>
