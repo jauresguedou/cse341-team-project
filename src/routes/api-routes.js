@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   getAllTrips,
   getTripById,
+  createTrip
 } from "../controllers/trips.js";
 import { scheduleController } from "../controllers/schedule.js";
 
@@ -204,6 +205,34 @@ router.get("/api/trips/:id", getTripById);
  */
 
 router.get("/api/trips/:id/schedules", scheduleController)
+
+/**
+ * @swagger
+ * /api/trips:
+ *   post:
+ *     summary: Create a trip (admin only)
+ *     tags: [Trips]
+ *     security:
+ *       - cookieAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Trip'
+ *     responses:
+ *       201:
+ *         description: The created trip
+ *       400:
+ *         description: Invalid trip data
+ *       401:
+ *         description: Authentication required
+ *       403:
+ *         description: Admin role required
+ *       409:
+ *         description: A trip with this id already exists
+ */
+router.post("/api/trips", requireApiRole("admin"), createTrip);
 
 
 // TODO: Add admin routes for user management swagger docs

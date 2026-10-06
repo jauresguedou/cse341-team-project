@@ -1,6 +1,8 @@
 import {
 	getTripById as findTripById,
 	getPaginatedTrips as findPaginatedTrips,
+	tripIdExists,
+	insertTrip,
 } from "../models/trips.js";
 import Schedule from "../models/schedules.js";
 
@@ -100,6 +102,65 @@ export async function getAllTrips(req, res) {
 
 		return res.status(500).json({
 			error: "Failed to fetch trips",
+		});
+	}
+}
+const TRIP_FIELDS = [
+	"id",
+	"name",
+	"description",
+	"region",
+	"startStation",
+	"endStation",
+	"duration",
+	"distance",
+	"highlights",
+	"bestSeason",
+	"operatingMonths",
+	"imageUrl",
+];
+
+// Keep only known trip fields so callers cannot set _id, createdAt, etc.
+const pickTripFields = (body = {}) =>
+	Object.fromEntries(
+		TRIP_FIELDS.filter((field) => body[field] !== undefined).map((field) => [
+			field,
+			body[field],
+		]),
+	);
+
+export async function createTrip(req, res) {
+	try {
+		const data = pickTripFields(req.body);
+
+		// Only look up string ids; the schema reports anything else as invalid.
+		if (typeof data.id === "string" && (await tripIdExists(data.id.trim()))) {
+			return res.status(409).json({
+				error: "A trip with this id already exists",
+			});
+		}
+
+		const trip = await insertTrip(data);
+
+		return res.status(201).json(trip);
+	} catch (error) {
+		if (error.name === "ValidationError") {
+			return res.status(400).json({
+				error: "Invalid trip data",
+				details: Object.values(error.errors).map((issue) => issue.message),
+			});
+		}
+
+		if (error.code === 11000) {
+			return res.status(409).json({
+				error: "A trip with this id already exists",
+			});
+		}
+
+		console.error("Error creating trip:", error);
+
+		return res.status(500).json({
+			error: "Failed to create trip",
 		});
 	}
 }
