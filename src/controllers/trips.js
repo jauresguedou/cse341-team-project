@@ -4,6 +4,7 @@ import {
 	tripIdExists,
 	insertTrip,
 	findTripDocument,
+	removeTrip,
 } from "../models/trips.js";
 import Schedule from "../models/schedules.js";
 
@@ -213,6 +214,30 @@ export async function updateTrip(req, res) {
 
 		return res.status(500).json({
 			error: "Failed to update trip",
+		});
+	}
+}
+
+export async function deleteTrip(req, res) {
+	try {
+		const { id } = req.params;
+
+		const deleted = await removeTrip(id);
+
+		if (!deleted) {
+			return res.status(404).json( {
+				error: "Trip not found",
+			});
+		}
+			
+		await Schedule.deleteMany({ tripId: id });
+		
+		return res.status(204).send();
+	} catch (error) {
+		console.error("Error deleting trip:", error);
+
+		return res.status(500).json({
+			error: "Failed to delete trip",
 		});
 	}
 }

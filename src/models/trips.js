@@ -52,3 +52,7 @@ export async function insertTrip(data) {
 export async function findTripDocument(id) {
 	return Trip.findOne({ id });
 }
+
+export async function removeTrip(id) {
+	return Trip.findOneAndDelete({id});
+}

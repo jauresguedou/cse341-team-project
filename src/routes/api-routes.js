@@ -3,7 +3,8 @@ import {
   getAllTrips,
   getTripById,
   createTrip,
-  updateTrip
+  updateTrip,
+  deleteTrip,
 } from "../controllers/trips.js";
 import { scheduleController } from "../controllers/schedule.js";
 
@@ -270,6 +271,32 @@ router.post("/api/trips", requireApiRole("admin"), createTrip);
  *         description: Trip not found
  */
 router.put("/api/trips/:id", requireApiRole("admin"), updateTrip);
+/**
+ * @swagger
+ * /api/trips/{id}:
+ *   delete:
+ *     summary: Delete a trip and its schedules (admin only)
+ *     tags: [Trips]
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The trip identifier
+ *     responses:
+ *       204:
+ *         description: Trip and its schedules deleted
+ *       401:
+ *         description: Authentication required
+ *       403:
+ *         description: Admin role required
+ *       404:
+ *         description: Trip not found
+ */
+router.delete("/api/trips/:id", requireApiRole("admin"), deleteTrip);
 
 
 // TODO: Add admin routes for user management swagger docs
