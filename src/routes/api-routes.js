@@ -2,7 +2,8 @@ import { Router } from "express";
 import {
   getAllTrips,
   getTripById,
-  createTrip
+  createTrip,
+  updateTrip
 } from "../controllers/trips.js";
 import { scheduleController } from "../controllers/schedule.js";
 
@@ -233,6 +234,42 @@ router.get("/api/trips/:id/schedules", scheduleController)
  *         description: A trip with this id already exists
  */
 router.post("/api/trips", requireApiRole("admin"), createTrip);
+
+/**
+ * @swagger
+ * /api/trips/{id}:
+ *   put:
+ *     summary: Update a trip (admin only)
+ *     description: Send only the fields to change. The trip id cannot be changed.
+ *     tags: [Trips]
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The trip identifier
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Trip'
+ *     responses:
+ *       200:
+ *         description: The updated trip
+ *       400:
+ *         description: Invalid trip data, or nothing to update
+ *       401:
+ *         description: Authentication required
+ *       403:
+ *         description: Admin role required
+ *       404:
+ *         description: Trip not found
+ */
+router.put("/api/trips/:id", requireApiRole("admin"), updateTrip);
 
 
 // TODO: Add admin routes for user management swagger docs

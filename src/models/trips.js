@@ -48,3 +48,7 @@ export async function insertTrip(data) {
 	const trip = await Trip.create(data);
 	return trip.toObject();
 }
+
+export async function findTripDocument(id) {
+	return Trip.findOne({ id });
+}

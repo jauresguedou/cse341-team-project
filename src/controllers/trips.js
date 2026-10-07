@@ -3,6 +3,7 @@ import {
 	getPaginatedTrips as findPaginatedTrips,
 	tripIdExists,
 	insertTrip,
+	findTripDocument,
 } from "../models/trips.js";
 import Schedule from "../models/schedules.js";
 
@@ -161,6 +162,57 @@ export async function createTrip(req, res) {
 
 		return res.status(500).json({
 			error: "Failed to create trip",
+		});
+	}
+}
+
+export async function updateTrip(req, res) {
+	try {
+		const { id } = req.params;
+		const updates = pickTripFields(req.body);
+
+		// A trip's id is its public name and cannot be changed.
+		if (updates.id !== undefined && updates.id !== id) {
+			return res.status(400).json({
+				error: "Trip id cannot be changed",
+			});
+		}
+		delete updates.id;
+
+		if (Object.keys(updates).length === 0) {
+			return res.status(400).json({
+				error: "No valid trip fields to update",
+			});
+		}
+
+		const trip = await findTripDocument(id);
+
+		if (!trip) {
+			return res.status(404).json({
+				error: "Trip not found",
+			});
+		}
+
+		// set() applies the changes; save() runs the full schema validation
+		// and writes nothing if any rule fails.
+		trip.set(updates);
+		await trip.save();
+
+		return res.status(200).json(trip.toObject());
+	} catch (error) {
+		if (error.name === "ValidationError" || error.name === "CastError") {
+			return res.status(400).json({
+				error: "Invalid trip data",
+				details: error.errors
+					? Object.values(error.errors).map((issue) => issue.message)
+					: [error.message],
+			});
+		}
+
+		console.error("Error updating trip:", error);
+
+		return res.status(500).json({
+			error: "Failed to update trip",
 		});
 	}
 }
