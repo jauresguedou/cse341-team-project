@@ -83,9 +83,18 @@ re-seeded before every test, so tests are independent.
 - Session-cookie auth (`express-session`), `requireApiRole('admin')` available.
 
 ## Write operations (POST/PUT/DELETE)
-BLOCKED: no routes exist. When added, tests will verify the response
-(201/200/204, 401 no session, 403 non-admin, 400 validation, 404 unknown id)
-and query the `trips` collection to confirm the insert, update, or removal.
+Implemented on branch `jg-week06-trip-routes` (admin only).
+- POST /api/trips: 201; 401 no session; 403 regular user; 400 invalid
+  body; 409 duplicate id. Tests read the `trips` collection to confirm the
+  new document exists and the count went from 12 to 13.
+- PUT /api/trips/:id: 200; partial update; 400 for invalid values, an
+  empty update, or a changed id; 404 unknown id. Tests confirm the stored
+  trip equals the old trip plus exactly the requested changes.
+- DELETE /api/trips/:id: 204; 404 unknown id. Tests confirm the trip and
+  its schedules are gone and other trips and schedules are untouched.
+- Every rejected request is followed by a database check that nothing changed.
+- Test accounts: `tests/helpers/auth.js` creates an admin or user from the
+  seeded roles and logs in with a session cookie (`request.agent`).
 
 ## Region / season / keyword search
 Implemented on `main` (Week 05, PR #32). Existing tests in
