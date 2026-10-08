@@ -2,6 +2,9 @@ import { Router } from "express";
 import {
   getAllTrips,
   getTripById,
+  createTrip,
+  updateTrip,
+  deleteTrip,
 } from "../controllers/trips.js";
 import { scheduleController } from "../controllers/schedule.js";
 
@@ -204,6 +207,96 @@ router.get("/api/trips/:id", getTripById);
  */
 
 router.get("/api/trips/:id/schedules", scheduleController)
+
+/**
+ * @swagger
+ * /api/trips:
+ *   post:
+ *     summary: Create a trip (admin only)
+ *     tags: [Trips]
+ *     security:
+ *       - cookieAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Trip'
+ *     responses:
+ *       201:
+ *         description: The created trip
+ *       400:
+ *         description: Invalid trip data
+ *       401:
+ *         description: Authentication required
+ *       403:
+ *         description: Admin role required
+ *       409:
+ *         description: A trip with this id already exists
+ */
+router.post("/api/trips", requireApiRole("admin"), createTrip);
+
+/**
+ * @swagger
+ * /api/trips/{id}:
+ *   put:
+ *     summary: Update a trip (admin only)
+ *     description: Send only the fields to change. The trip id cannot be changed.
+ *     tags: [Trips]
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The trip identifier
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Trip'
+ *     responses:
+ *       200:
+ *         description: The updated trip
+ *       400:
+ *         description: Invalid trip data, or nothing to update
+ *       401:
+ *         description: Authentication required
+ *       403:
+ *         description: Admin role required
+ *       404:
+ *         description: Trip not found
+ */
+router.put("/api/trips/:id", requireApiRole("admin"), updateTrip);
+/**
+ * @swagger
+ * /api/trips/{id}:
+ *   delete:
+ *     summary: Delete a trip and its schedules (admin only)
+ *     tags: [Trips]
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The trip identifier
+ *     responses:
+ *       204:
+ *         description: Trip and its schedules deleted
+ *       401:
+ *         description: Authentication required
+ *       403:
+ *         description: Admin role required
+ *       404:
+ *         description: Trip not found
+ */
+router.delete("/api/trips/:id", requireApiRole("admin"), deleteTrip);
 
 
 // TODO: Add admin routes for user management swagger docs

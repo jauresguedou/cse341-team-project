@@ -39,3 +39,20 @@ export async function getPaginatedTrips(page, limit, filters = {}) {
 		seasons: seasons.sort(),
 	};
 } 
+
+export async function tripIdExists(id) {
+	return Boolean(await Trip.exists({ id }));
+}
+
+export async function insertTrip(data) {
+	const trip = await Trip.create(data);
+	return trip.toObject();
+}
+
+export async function findTripDocument(id) {
+	return Trip.findOne({ id });
+}
+
+export async function removeTrip(id) {
+	return Trip.findOneAndDelete({id});
+}
