@@ -4,6 +4,8 @@ import stations from './seeds/stations.json' with { type: 'json' };
 import ticketClasses from './seeds/ticket-classes.json' with { type: 'json' };
 import trains from './seeds/trains.json' with { type: 'json' };
 import roles from './seeds/roles.json' with { type: 'json' };
+import User from '../models/user';
+import { registerUser } from '../controllers/auth';
 
 const starterCollections = [
   ['trips', trips],
@@ -18,6 +20,8 @@ const initializeDatabase = async (db) => {
     throw new Error('A database connection is required to initialize data.');
   }
 
+
+
   for (const [collectionName, documents] of starterCollections) {
     const collection = db.collection(collectionName);
     await collection.deleteMany({});
@@ -27,21 +31,29 @@ const initializeDatabase = async (db) => {
   const rolesCollection = db.collection('roles');
 
   for (const role of roles) {
-      const now = new Date();
-      await rolesCollection.updateOne(
-          { name: role.name },
-          {
-              $set: {
-                  description: role.description,
-                  updatedAt: now
-              },
-                $setOnInsert: {
-                  createdAt: now
-              }
-            },
-            { upsert: true }
-        );
-    }
+    const now = new Date();
+    await rolesCollection.updateOne(
+      { name: role.name },
+      {
+        $set: {
+          description: role.description,
+          updatedAt: now
+        },
+        $setOnInsert: {
+          createdAt: now
+        }
+      },
+      { upsert: true }
+    );
+  }
+
+  await registerUser({
+    displayName: "Travis",
+    username: "travisabuton",
+    password: "1235678",
+    email: "travisa@gmail.com",
+    roles: 'admin'
+  })
 
 
   const confirmations = db.collection('confirmations');
