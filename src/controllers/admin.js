@@ -1,5 +1,8 @@
 import User from '../models/user.js'
 import Role from '../models/role.js'
+import mongoose from 'mongoose'
+
+
 const adminDashboardPage = (req, res) => {
     res.render('admin/dashboard', { title: 'Admin Dashboard' });
 };
@@ -12,9 +15,16 @@ const adminUsers = async (req, res) => {
         const page = Math.max(parseInt(req.query.page) || 1, 1);
         const limit = Math.min(Math.max(parseInt(req.query.limit) || 3, 1), 100);
         const skip = (page - 1) * limit;
+        const role = String(req.query.roleq || "").trim();
         const q = String(req.query.q || '').trim();
-
         const filter = {};
+
+        if (role) {
+            if (!mongoose.isValidObjectId(role)) {
+                return res.status(400).json({ error: 'Invalid role id' });
+            }
+            filter.role = role;
+        }
         if (q) {
             const regex = new RegExp(escapeRegex(q), 'i');
             filter.$or = [
