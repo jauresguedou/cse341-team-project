@@ -66,6 +66,28 @@ describe('GET /api/trips (read)', () => {
       'winter',
     ]);
   });
+  
+test('returns the seeded fields for every trip in the list', async () => {
+  const response = await request(app).get('/api/trips?limit=12');
+
+  expect(response.status).toBe(200);
+
+  const expectedById = new Map(
+    seedTrips.map((trip) => {
+      const { _id, ...expectedFields } = trip;
+      return [trip.id, expectedFields];
+    })
+  );
+
+  expect(response.body.trips).toHaveLength(seedTrips.length);
+
+  for (const trip of response.body.trips) {
+    expect(expectedById.has(trip.id)).toBe(true);
+    expect(trip).toMatchObject(expectedById.get(trip.id));
+    expect(typeof trip._id).toBe('string');
+  }
+});
+
 });
 
 describe('GET /api/trips/:id (read)', () => {
