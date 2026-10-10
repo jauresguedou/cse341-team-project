@@ -102,7 +102,8 @@ describe('POST /api/trips', () => {
 
   test.each([
     ['a missing id', withoutField('id')],
-    ['a missing name', withoutField('name')],
+    ['a missing name', withoutField('name')]
+    ['a blank name', { ...validTrip, name: ' ' }],
     ['an unknown bestSeason', { ...validTrip, bestSeason: 'monsoon' }],
     ['empty highlights', { ...validTrip, highlights: [] }],
     ['operatingMonths outside 1 to 12', { ...validTrip, operatingMonths: [0, 13] }],
