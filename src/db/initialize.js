@@ -4,8 +4,8 @@ import stations from './seeds/stations.json' with { type: 'json' };
 import ticketClasses from './seeds/ticket-classes.json' with { type: 'json' };
 import trains from './seeds/trains.json' with { type: 'json' };
 import roles from './seeds/roles.json' with { type: 'json' };
-import User from '../models/user';
-import { registerUser } from '../controllers/auth';
+
+
 
 const starterCollections = [
   ['trips', trips],
@@ -46,16 +46,6 @@ const initializeDatabase = async (db) => {
       { upsert: true }
     );
   }
-
-  await registerUser({
-    displayName: "Travis",
-    username: "travisabuton",
-    password: "12345678",
-    email: "travisa@gmail.com",
-    roles: 'admin'
-  })
-
-
   const confirmations = db.collection('confirmations');
   await confirmations.deleteMany({});
   await confirmations.createIndex({ id: 1 }, { unique: true });

@@ -3,10 +3,10 @@ import { beforeAll, describe, expect, it, test } from 'vitest';
 import app from '../app.js'
 
 describe("BOOKING API Tests", () => {
-    // Login once for authentication
     const agent = request.agent(app);
 
     beforeAll(async () => {
+
         await agent.post("/api/auth/login")
             .send({
                 username: 'travisabuton',
@@ -16,7 +16,6 @@ describe("BOOKING API Tests", () => {
 
     it('returns the profile for a logged-in user', async () => {
         const res = await agent.get('/api/auth/me');
-        console.log(res.body)
         expect(res.status).toBe(200)
     });
 

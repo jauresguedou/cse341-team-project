@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import User from '../models/user.js';
 import Role from '../models/role.js';
-
+import mongoose from 'mongoose';
 const safeUser = (user) => ({
     id: user._id.toString(),
     displayName: user.displayName,
