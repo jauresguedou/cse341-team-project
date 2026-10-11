@@ -10,7 +10,7 @@ describe("BOOKING API Tests", () => {
         await agent.post("/api/auth/login")
             .send({
                 username: 'travisabuton',
-                password: '1235678'
+                password: '12345678'
             }).expect(200)
     })
 

@@ -50,7 +50,7 @@ const initializeDatabase = async (db) => {
   await registerUser({
     displayName: "Travis",
     username: "travisabuton",
-    password: "1235678",
+    password: "12345678",
     email: "travisa@gmail.com",
     roles: 'admin'
   })
