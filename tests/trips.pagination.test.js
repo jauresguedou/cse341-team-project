@@ -120,4 +120,21 @@ describe('GET /api/trips pagination (seeded data)', () => {
       });
     }
   );
+  
+  test.each([
+    ['page=0', 'page=0'],
+    ['negative page', 'page=-1'],
+    ['decimal page', 'page=1.5'],
+    ['non-numeric page', 'page=abc'],
+    ['limit=0', 'limit=0'],
+    ['negative limit', 'limit=-1'],
+    ['decimal limit', 'limit=1.5'],
+    ['non-numeric limit', 'limit=abc'],
+  ])('rejects %s with 400', async (_label, query) => {
+    const response = await request(app).get(`/api/trips?${query}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('error');
+  });
+
 });
