@@ -5,6 +5,8 @@ import ticketClasses from './seeds/ticket-classes.json' with { type: 'json' };
 import trains from './seeds/trains.json' with { type: 'json' };
 import roles from './seeds/roles.json' with { type: 'json' };
 
+
+
 const starterCollections = [
   ['trips', trips],
   ['schedules', schedules],
@@ -18,6 +20,8 @@ const initializeDatabase = async (db) => {
     throw new Error('A database connection is required to initialize data.');
   }
 
+
+
   for (const [collectionName, documents] of starterCollections) {
     const collection = db.collection(collectionName);
     await collection.deleteMany({});
@@ -27,23 +31,21 @@ const initializeDatabase = async (db) => {
   const rolesCollection = db.collection('roles');
 
   for (const role of roles) {
-      const now = new Date();
-      await rolesCollection.updateOne(
-          { name: role.name },
-          {
-              $set: {
-                  description: role.description,
-                  updatedAt: now
-              },
-                $setOnInsert: {
-                  createdAt: now
-              }
-            },
-            { upsert: true }
-        );
-    }
-
-
+    const now = new Date();
+    await rolesCollection.updateOne(
+      { name: role.name },
+      {
+        $set: {
+          description: role.description,
+          updatedAt: now
+        },
+        $setOnInsert: {
+          createdAt: now
+        }
+      },
+      { upsert: true }
+    );
+  }
   const confirmations = db.collection('confirmations');
   await confirmations.deleteMany({});
   await confirmations.createIndex({ id: 1 }, { unique: true });

@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import User from '../models/user.js';
 import Role from '../models/role.js';
-
+import mongoose from 'mongoose';
 const safeUser = (user) => ({
     id: user._id.toString(),
     displayName: user.displayName,
@@ -40,8 +40,8 @@ const validRegistration = ({ displayName, username, email, password }) => (
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && password.length >= 8
 );
 
-const registerUser = async ({ displayName, username, email, password }) => {
-    const role = await Role.findOne({ name: 'user' });
+const registerUser = async ({ displayName, username, email, password, roles = 'user' }) => {
+    const role = await Role.findOne({ name: roles });
     if (!role) {
         throw new Error('The standard user role is not configured.');
     }
@@ -204,4 +204,5 @@ export {
     registerApi,
     registerPage,
     registerPageSubmit,
+    registerUser
 };
